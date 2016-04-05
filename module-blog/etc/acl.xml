@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::content">
+                    <resource id="Magento_Backend::content_elements">
+                        <resource id="Windigo_Blog::blog" title="Blogs" sortOrder="10">
+                            <resource id="Windigo_Blog::save" title="Save Blog" sortOrder="10" />
+                            <resource id="Windigo_Blog::page_delete" title="Delete Blog" sortOrder="20" />
+                        </resource>
+                        <resource id="Windigo_Blog::posts" title="Posts" sortOrder="30" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Windigo_Blog::config_blog" title="Blog Management" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

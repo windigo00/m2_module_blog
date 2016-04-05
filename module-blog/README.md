@@ -1,0 +1,1 @@
+The Blog module allows creating, editing and managing blog posts.
