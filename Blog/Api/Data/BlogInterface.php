@@ -88,7 +88,7 @@ interface BlogInterface
      * Set ID
      *
      * @param int $id
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setId($id);
 
@@ -96,7 +96,7 @@ interface BlogInterface
      * Set identifier
      *
      * @param string $identifier
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setIdentifier($identifier);
 
@@ -104,7 +104,7 @@ interface BlogInterface
      * Set title
      *
      * @param string $title
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setTitle($title);
 
@@ -112,7 +112,7 @@ interface BlogInterface
      * Set meta keywords
      *
      * @param string $metaKeywords
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setMetaKeywords($metaKeywords);
 
@@ -120,7 +120,7 @@ interface BlogInterface
      * Set meta description
      *
      * @param string $metaDescription
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setMetaDescription($metaDescription);
 
@@ -128,7 +128,7 @@ interface BlogInterface
      * Set content
      *
      * @param string $content
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setContent($content);
 
@@ -136,7 +136,7 @@ interface BlogInterface
      * Set creation time
      *
      * @param string $creationTime
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setCreationTime($creationTime);
 
@@ -144,7 +144,7 @@ interface BlogInterface
      * Set update time
      *
      * @param string $updateTime
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setUpdateTime($updateTime);
 
@@ -152,7 +152,7 @@ interface BlogInterface
      * Set is active
      *
      * @param int|bool $isActive
-     * @return \Windigo\Blog\Api\Data\PageInterface
+     * @return \Windigo\Blog\Api\Data\BlogInterface
      */
     public function setIsActive($isActive);
 }

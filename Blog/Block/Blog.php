@@ -15,6 +15,10 @@ use Magento\Framework\View\Element\Template,
 class Blog extends Template implements IdentityInterface {
 	
 	/**
+     * @var \Windigo\Blog\Model\Blog
+     */
+    protected $blog;
+	/**
      * @var \Windigo\Blog\Model\Resource\BlogFactory
      */
     protected $blogFactory;
@@ -27,17 +31,20 @@ class Blog extends Template implements IdentityInterface {
      * Construct
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Windigo\Blog\Model\Blog $blog,
      * @param \Windigo\Blog\Model\Resource\BlogFactory $blogFactory,
      * @param \Windigo\Blog\Model\Resource\Post\CollectionFactory $postCollectionFactory,
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+		\Windigo\Blog\Model\Blog $blog,
         \Windigo\Blog\Model\Resource\BlogFactory $blogFactory,
         \Windigo\Blog\Model\Resource\Post\CollectionFactory $postCollectionFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
+        $this->blog = $blog;
         $this->blogFactory = $blogFactory;
         $this->postCollectionFactory = $postCollectionFactory;
     }
@@ -48,7 +55,14 @@ class Blog extends Template implements IdentityInterface {
     public function getBlog()
     {
         if (!$this->hasData('blog')) {
-            $blog = $this->blogFactory->create();
+			if ($this->getBlogId()) {
+                /** @var \Windigo\Blog\Model\Blog $blog */
+                $blog = $this->blogFactory->create();
+                $blog->load($this->getBlogId(), 'identifier');
+            } else {
+                $blog = $this->blog;
+            }
+//            $blog = $this->blogFactory->create();
             $this->setData('blog', $blog);
         }
         return $this->getData('blog');

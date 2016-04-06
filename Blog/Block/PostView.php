@@ -4,7 +4,7 @@ namespace Windigo\Blog\Block;
 use Magento\Framework\View\Element\Template,
 	Magento\Framework\DataObject\IdentityInterface,
 	Magento\Framework\View\Element\Template\Context,
-	Windigo\Blog\Model\Post,
+	Windigo\Blog\Model\Post as PostModel,
 	Windigo\Blog\Model\PostFactory
 		;
 
@@ -18,7 +18,7 @@ class PostView extends Template implements IdentityInterface {
      * @param \Windigo\Blog\Model\PostFactory $postFactory
      * @param array $data
      */
-    public function __construct(Context $context, Post $post, PostFactory $postFactory, array $data = []) {
+    public function __construct(Context $context, PostModel $post, PostFactory $postFactory, array $data = []) {
         parent::__construct($context, $data);
         $this->_post = $post;
         $this->_postFactory = $postFactory;
@@ -35,7 +35,7 @@ class PostView extends Template implements IdentityInterface {
         // that has been filtered differently!
         if (!$this->hasData('post')) {
             if ($this->getPostId()) {
-                /** @var \Windigo\Blog\Model\Post $page */
+                /** @var \Windigo\Blog\Model\Post $post */
                 $post = $this->_postFactory->create();
             } else {
                 $post = $this->_post;

@@ -5,7 +5,7 @@
 	</head>
 	<body>
         <referenceContainer name="content">
-            <block class="Windigo\Blog\Block\Blog" name="wblog" template="Windigo_Blog::view.phtml" />
+            <block class="Windigo\Blog\Block\BlogList" name="wblog" template="Windigo_Blog::view_list.phtml" />
         </referenceContainer>
     </body>
 </page>

@@ -1,14 +1,15 @@
 <?php
 /** @var $block \Ashsmith\Blog\Block\PostView */
-/** @var $post \Ashsmith\Blog\Model\Post */
-$post = $block->getPost();
+/** @var $blog \Ashsmith\Blog\Model\Blog */
+$blog = $block->getBlog();
 ?>
-<h1 class="blog-post-item-title"><?php echo $post->getTitle() ?></h1>
+<div class="navigation"><a href="."><?php echo __('&lt;- Back') ?></a></div>
+<h1 class="blog-post-item-title"><?php echo $blog->getTitle() ?></h1>
 
 <div class="blog-post-item-content">
-    <?php echo $post->getContent(); ?>
+    <?php echo $blog->getContent(); ?>
 </div>
 
 <div class="blog-post-item-meta">
-    <strong><?php echo __('Created at:') ?></strong> <?php echo $post->getCreationTime() ?>
+    <strong><?php echo __('Created at:') ?></strong> <?php echo $blog->getCreationTime() ?>
 </div>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+    </head>
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Windigo\Blog\Block\Adminhtml\Blog\Edit" name="wblog_blog_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Windigo\Blog\Block\Adminhtml\Blog\Edit\Tabs" name="wblog_blog_edit_tabs">
+                <block class="Windigo\Blog\Block\Adminhtml\Blog\Edit\Tab\Main" name="wblog_blog_edit_tab_main"/>
+                <!--<block class="Windigo\Blog\Block\Adminhtml\Blog\Edit\Tab\Content" name="wblog_blog_edit_tab_content"/>-->
+                <block class="Windigo\Blog\Block\Adminhtml\Blog\Edit\Tab\Meta" name="wblog_blog_edit_tab_meta"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">wblog_blog_edit_tab_main</argument>
+                </action>
+                <!-- action method="addTab">
+                    <argument name="name" xsi:type="string">content_section</argument>
+                    <argument name="block" xsi:type="string">wblog_blog_edit_tab_content</argument>
+                </action -->
+               <action method="addTab">
+                    <argument name="name" xsi:type="string">meta_section</argument>
+                    <argument name="block" xsi:type="string">wblog_blog_edit_tab_meta</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

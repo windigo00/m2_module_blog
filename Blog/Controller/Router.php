@@ -16,26 +16,26 @@ class Router implements RouterInterface {
     protected $actionFactory;
 
     /**
-     * Post factory
+     * Blog factory
      *
-     * @var \Windigo\Blog\Model\PostFactory
+     * @var \Windigo\Blog\Model\BlogFactory
      */
-    protected $_postFactory;
+    protected $_blogFactory;
 
     /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
-     * @param \Windigo\Blog\Model\PostFactory $postFactory
+     * @param \Windigo\Blog\Model\BlogFactory $blogFactory
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
-        \Windigo\Blog\Model\PostFactory $postFactory
+        \Windigo\Blog\Model\BlogFactory $blogFactory
     ) {
         $this->actionFactory = $actionFactory;
-        $this->_postFactory = $postFactory;
+        $this->_blogFactory = $blogFactory;
     }
 
     /**
-     * Validate and Match Blog Post and modify request
+     * Validate and Match Blog Blog and modify request
      *
      * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
@@ -44,15 +44,14 @@ class Router implements RouterInterface {
     {
         $url_key = trim($request->getPathInfo(), '/wblog/');
         $url_key = rtrim($url_key, '/');
-
-        /** @var \Windigo\Blog\Model\Post $post */
-        $post = $this->_postFactory->create();
-        $post_id = $post->checkUrlKey($url_key);
-        if (!$post_id) {
+        /** @var \Windigo\Blog\Model\Blog $blog */
+        $blog = $this->_blogFactory->create();
+        $blog_id = $blog->checkUrlKey($url_key);
+		if (!$blog_id) {
             return null;
         }
 
-        $request->setModuleName('wblog')->setControllerName('view')->setActionName('index')->setParam('post_id', $post_id);
+        $request->setModuleName('wblog')->setControllerName('view')->setActionName('index')->setParam('id', $blog_id);
         $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $url_key);
 
         return $this->actionFactory->create('Magento\Framework\App\Action\Forward');

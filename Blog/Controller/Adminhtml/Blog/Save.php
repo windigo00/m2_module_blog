@@ -1,10 +1,6 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-namespace Magento\Cms\Controller\Adminhtml\Page;
+
+namespace Windigo\Blog\Controller\Adminhtml\Blog;
 
 use Magento\Backend\App\Action;
 
@@ -30,7 +26,7 @@ class Save extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Cms::save');
+        return $this->_authorization->isAllowed('Windigo_Blog::save');
     }
 
     /**
@@ -45,9 +41,9 @@ class Save extends \Magento\Backend\App\Action
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
             $data = $this->dataProcessor->filter($data);
-            $model = $this->_objectManager->create('Magento\Cms\Model\Page');
+            $model = $this->_objectManager->create('Windigo\Blog\Model\Blog');
 
-            $id = $this->getRequest()->getParam('page_id');
+            $id = $this->getRequest()->getParam('blog_id');
             if ($id) {
                 $model->load($id);
             }
@@ -55,20 +51,20 @@ class Save extends \Magento\Backend\App\Action
             $model->setData($data);
 
             $this->_eventManager->dispatch(
-                'cms_page_prepare_save',
-                ['page' => $model, 'request' => $this->getRequest()]
+                'wblog_blog_prepare_save',
+                ['blog' => $model, 'request' => $this->getRequest()]
             );
 
             if (!$this->dataProcessor->validate($data)) {
-                return $resultRedirect->setPath('*/*/edit', ['page_id' => $model->getId(), '_current' => true]);
+                return $resultRedirect->setPath('*/*/edit', ['blog_id' => $model->getId(), '_current' => true]);
             }
 
             try {
                 $model->save();
-                $this->messageManager->addSuccess(__('You saved this page.'));
+                $this->messageManager->addSuccess(__('You saved this blog.'));
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
-                    return $resultRedirect->setPath('*/*/edit', ['page_id' => $model->getId(), '_current' => true]);
+                    return $resultRedirect->setPath('*/*/edit', ['blog_id' => $model->getId(), '_current' => true]);
                 }
                 return $resultRedirect->setPath('*/*/');
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
@@ -76,11 +72,11 @@ class Save extends \Magento\Backend\App\Action
             } catch (\RuntimeException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Something went wrong while saving the page.'));
+                $this->messageManager->addException($e, __('Something went wrong while saving the blog.'));
             }
 
             $this->_getSession()->setFormData($data);
-            return $resultRedirect->setPath('*/*/edit', ['page_id' => $this->getRequest()->getParam('page_id')]);
+            return $resultRedirect->setPath('*/*/edit', ['blog_id' => $this->getRequest()->getParam('blog_id')]);
         }
         return $resultRedirect->setPath('*/*/');
     }

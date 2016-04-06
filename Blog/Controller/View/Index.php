@@ -11,6 +11,7 @@ class Index extends Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
+	 * @param \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
      */
     public function __construct(\Magento\Framework\App\Action\Context $context,
                                 \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
@@ -27,10 +28,10 @@ class Index extends Action
      */
     public function execute()
     {
-        $post_id = $this->getRequest()->getParam('post_id', $this->getRequest()->getParam('id', false));
-        /** @var \Windigo\Blog\Helper\Post $post_helper */
-        $post_helper = $this->_objectManager->get('Windigo\Blog\Helper\Post');
-        $result_page = $post_helper->prepareResultPost($this, $post_id);
+        $blog_id = $this->getRequest()->getParam('id', $this->getRequest()->getParam('id', false));
+        /** @var \Windigo\Blog\Helper\Blog $blog_helper */
+        $blog_helper = $this->_objectManager->get('\Windigo\Blog\Helper\Blog');
+        $result_page = $blog_helper->prepareResultBlog($this, $blog_id);
         if (!$result_page) {
             $resultForward = $this->resultForwardFactory->create();
             return $resultForward->forward('noroute');

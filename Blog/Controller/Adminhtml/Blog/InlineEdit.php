@@ -1,17 +1,13 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-namespace Magento\Cms\Controller\Adminhtml\Page;
+namespace Windigo\Blog\Controller\Adminhtml\Blog;
 
-use Magento\Backend\App\Action\Context;
-use Magento\Cms\Api\PageRepositoryInterface as PageRepository;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Cms\Api\Data\PageInterface;
+use Magento\Backend\App\Action\Context,
+	Windigo\Blog\Api\BlogRepositoryInterface as BlogRepository,
+	Magento\Framework\Controller\Result\JsonFactory,
+	Windigo\Blog\Api\Data\BlogInterface;
 
 /**
- * Cms page grid inline edit controller
+ * Blog grid inline edit controller
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -20,8 +16,8 @@ class InlineEdit extends \Magento\Backend\App\Action
     /** @var PostDataProcessor */
     protected $dataProcessor;
 
-    /** @var PageRepository  */
-    protected $pageRepository;
+    /** @var BlogRepository  */
+    protected $blogRepository;
 
     /** @var JsonFactory  */
     protected $jsonFactory;
@@ -29,18 +25,18 @@ class InlineEdit extends \Magento\Backend\App\Action
     /**
      * @param Context $context
      * @param PostDataProcessor $dataProcessor
-     * @param PageRepository $pageRepository
+     * @param BlogRepository $blogRepository
      * @param JsonFactory $jsonFactory
      */
     public function __construct(
         Context $context,
         PostDataProcessor $dataProcessor,
-        PageRepository $pageRepository,
+        BlogRepository $blogRepository,
         JsonFactory $jsonFactory
     ) {
         parent::__construct($context);
         $this->dataProcessor = $dataProcessor;
-        $this->pageRepository = $pageRepository;
+        $this->blogRepository = $blogRepository;
         $this->jsonFactory = $jsonFactory;
     }
 
@@ -62,25 +58,25 @@ class InlineEdit extends \Magento\Backend\App\Action
             ]);
         }
 
-        foreach (array_keys($postItems) as $pageId) {
-            /** @var \Magento\Cms\Model\Page $page */
-            $page = $this->pageRepository->getById($pageId);
+        foreach (array_keys($postItems) as $blogId) {
+            /** @var \Windigo\Blog\Model\Blog $blog */
+            $blog = $this->blogRepository->getById($blogId);
             try {
-                $pageData = $this->filterPost($postItems[$pageId]);
-                $this->validatePost($pageData, $page, $error, $messages);
-                $extendedPageData = $page->getData();
-                $this->setCmsPageData($page, $extendedPageData, $pageData);
-                $this->pageRepository->save($page);
+                $blogData = $this->filterPost($postItems[$blogId]);
+                $this->validatePost($blogData, $blog, $error, $messages);
+                $extendedBlogData = $blog->getData();
+                $this->setBlogData($blog, $extendedBlogData, $blogData);
+                $this->blogRepository->save($blog);
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
-                $messages[] = $this->getErrorWithPageId($page, $e->getMessage());
+                $messages[] = $this->getErrorWithBlogId($blog, $e->getMessage());
                 $error = true;
             } catch (\RuntimeException $e) {
-                $messages[] = $this->getErrorWithPageId($page, $e->getMessage());
+                $messages[] = $this->getErrorWithBlogId($blog, $e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $messages[] = $this->getErrorWithPageId(
-                    $page,
-                    __('Something went wrong while saving the page.')
+                $messages[] = $this->getErrorWithBlogId(
+                    $blog,
+                    __('Something went wrong while saving the blog.')
                 );
                 $error = true;
             }
@@ -100,56 +96,56 @@ class InlineEdit extends \Magento\Backend\App\Action
      */
     protected function filterPost($postData = [])
     {
-        $pageData = $this->dataProcessor->filter($postData);
-        $pageData['custom_theme'] = isset($pageData['custom_theme']) ? $pageData['custom_theme'] : null;
-        $pageData['custom_root_template'] = isset($pageData['custom_root_template'])
-            ? $pageData['custom_root_template']
-            : null;
-        return $pageData;
+        $blogData = $this->dataProcessor->filter($postData);
+        $blogData['custom_theme'] = /*isset($blogData['custom_theme']) ? $blogData['custom_theme'] : */null;
+        $blogData['custom_root_template'] = /*isset($blogData['custom_root_template'])
+            ? $blogData['custom_root_template']
+            : */null;
+        return $blogData;
     }
 
     /**
      * Validate post data
      *
-     * @param array $pageData
-     * @param \Magento\Cms\Model\Page $page
+     * @param array $blogData
+     * @param \Windigo\Blog\Model\Blog $blog
      * @param bool $error
      * @param array $messages
      * @return void
      */
-    protected function validatePost(array $pageData, \Magento\Cms\Model\Page $page, &$error, array &$messages)
+    protected function validatePost(array $blogData, \Windigo\Blog\Model\Blog $blog, &$error, array &$messages)
     {
-        if (!($this->dataProcessor->validate($pageData) && $this->dataProcessor->validateRequireEntry($pageData))) {
+        if (!($this->dataProcessor->validate($blogData) && $this->dataProcessor->validateRequireEntry($blogData))) {
             $error = true;
             foreach ($this->messageManager->getMessages(true)->getItems() as $error) {
-                $messages[] = $this->getErrorWithPageId($page, $error->getText());
+                $messages[] = $this->getErrorWithBlogId($blog, $error->getText());
             }
         }
     }
 
     /**
-     * Add page title to error message
+     * Add blog title to error message
      *
-     * @param PageInterface $page
+     * @param BlogInterface $blog
      * @param string $errorText
      * @return string
      */
-    protected function getErrorWithPageId(PageInterface $page, $errorText)
+    protected function getErrorWithBlogId(BlogInterface $blog, $errorText)
     {
-        return '[Page ID: ' . $page->getId() . '] ' . $errorText;
+        return '[Blog ID: ' . $blog->getId() . '] ' . $errorText;
     }
 
     /**
-     * Set cms page data
+     * Set blog data
      *
-     * @param \Magento\Cms\Model\Page $page
-     * @param array $extendedPageData
-     * @param array $pageData
+     * @param \Windigo\Blog\Model\Blog $blog
+     * @param array $extendedBlogData
+     * @param array $blogData
      * @return $this
      */
-    public function setCmsPageData(\Magento\Cms\Model\Page $page, array $extendedPageData, array $pageData)
+    public function setBlogData(\Windigo\Blog\Model\Blog $blog, array $extendedBlogData, array $blogData)
     {
-        $page->setData(array_merge($page->getData(), $extendedPageData, $pageData));
+        $blog->setData(array_merge($blog->getData(), $extendedBlogData, $blogData));
         return $this;
     }
 }

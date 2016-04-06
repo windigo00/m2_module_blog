@@ -1,10 +1,6 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-namespace Magento\Cms\Controller\Adminhtml\Page;
+
+namespace Windigo\Blog\Controller\Adminhtml\Blog;
 
 class PostDataProcessor
 {
@@ -47,7 +43,7 @@ class PostDataProcessor
     public function filter($data)
     {
         $inputFilter = new \Zend_Filter_Input(
-            ['custom_theme_from' => $this->dateFilter, 'custom_theme_to' => $this->dateFilter],
+            [],
             [],
             $data
         );
@@ -64,21 +60,7 @@ class PostDataProcessor
     public function validate($data)
     {
         $errorNo = true;
-        if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
-            /** @var $validatorCustomLayout \Magento\Framework\View\Model\Layout\Update\Validator */
-            $validatorCustomLayout = $this->validatorFactory->create();
-            if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
-                $errorNo = false;
-            }
-            if (!empty($data['custom_layout_update_xml'])
-                && !$validatorCustomLayout->isValid($data['custom_layout_update_xml'])
-            ) {
-                $errorNo = false;
-            }
-            foreach ($validatorCustomLayout->getMessages() as $message) {
-                $this->messageManager->addError($message);
-            }
-        }
+        
         return $errorNo;
     }
 
@@ -91,8 +73,7 @@ class PostDataProcessor
     public function validateRequireEntry(array $data)
     {
         $requiredFields = [
-            'title' => __('Page Title'),
-            'stores' => __('Store View'),
+            'title' => __('Blog Title'),
             'is_active' => __('Status')
         ];
         $errorNo = true;

@@ -5,18 +5,11 @@
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Backend::content">
                     <resource id="Magento_Backend::content_elements">
-                        <resource id="Windigo_Blog::blog" title="Blogs" sortOrder="10">
-                            <resource id="Windigo_Blog::save" title="Save Blog" sortOrder="10" />
-                            <resource id="Windigo_Blog::page_delete" title="Delete Blog" sortOrder="20" />
+                        <resource id="Windigo_Blog::blog" title="Blogs" sortOrder="100">
+                            <resource id="Windigo_Blog::blog_save" title="Save Blog" sortOrder="10" />
+                            <resource id="Windigo_Blog::blog_delete" title="Delete Blog" sortOrder="20" />
                         </resource>
-                        <resource id="Windigo_Blog::posts" title="Posts" sortOrder="30" />
-                    </resource>
-                </resource>
-                <resource id="Magento_Backend::stores">
-                    <resource id="Magento_Backend::stores_settings">
-                        <resource id="Magento_Config::config">
-                            <resource id="Windigo_Blog::config_blog" title="Blog Management" />
-                        </resource>
+                        <resource id="Windigo_Blog::post" title="Posts" sortOrder="110" />
                     </resource>
                 </resource>
             </resource>

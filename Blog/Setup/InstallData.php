@@ -53,7 +53,7 @@ class InstallData implements InstallDataInterface
         ];
 
         /**
-         * Insert default and system pages
+         * Insert default and system blogs
          */
         foreach ($blogs as $data) {
             $this->createBlog()->setData($data)->save();
@@ -63,9 +63,9 @@ class InstallData implements InstallDataInterface
     }
 
     /**
-     * Create page
+     * Create blog
      *
-     * @return Page
+     * @return Blog
      */
     public function createBlog()
     {
